@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { Search, User, Heart, MessageCircle, Plus, Menu, X, Bell, Settings, LogOut } from 'lucide-react';
+import { Search, User, Heart, MessageCircle, Plus, Menu, X, Bell, Settings, LogOut, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useProperty } from '../../contexts/PropertyContext';
+import { useMessage } from '../../contexts/MessageContext';
 import LoginModal from '../auth/LoginModal';
+import PropertyForm from '../property/PropertyForm';
+import AlertManager from '../alerts/AlertManager';
+import FavoritesList from '../favorites/FavoritesList';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -11,13 +16,19 @@ export default function Header({ onSearch }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showPropertyForm, setShowPropertyForm] = useState(false);
+  const [showAlerts, setShowAlerts] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const [loginMode, setLoginMode] = useState<'login' | 'register'>('login');
   const [searchQuery, setSearchQuery] = useState('');
   
   const { user, logout } = useAuth();
+  const { favorites, setSearchQuery: setGlobalSearchQuery } = useProperty();
+  const { unreadCount } = useMessage();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    setGlobalSearchQuery(searchQuery);
     onSearch?.(searchQuery);
   };
 
@@ -66,29 +77,65 @@ export default function Header({ onSearch }: HeaderProps) {
             {user ? (
               <>
                 {user.role === 'landlord' && (
-                  <button className="flex items-center space-x-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white px-4 py-2 rounded-lg hover:from-orange-500 hover:to-orange-700 transition-all">
+                  <button 
+                    onClick={() => setShowPropertyForm(true)}
+                    className="flex items-center space-x-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white px-4 py-2 rounded-lg hover:from-orange-500 hover:to-orange-700 transition-all"
+                  >
                     <Plus className="h-4 w-4" />
                     <span>Publier</span>
                   </button>
                 )}
                 
-                <button className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    3
+                <button 
+                  onClick={() => setShowAlerts(true)}
+                  className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative"
+                >
+                  <AlertTriangle className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    2
                   </span>
                 </button>
                 
-                <button className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative">
-                  <Heart className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    3
-                  </span>
+                <button 
+                  className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative"
+                >
+                  <Bell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
                 </button>
-                <button className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative">
+                
+                <button 
+                  onClick={() => setShowFavorites(true)}
+                  className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative"
+                >
+                  <Heart className="h-5 w-5" />
+                  {favorites.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {favorites.length}
+                    </span>
+                  )}
+                </button>
+                
+                <button 
+                  className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative"
+                >
                   <MessageCircle className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    2
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+                
+                <button 
+                  className="p-2 text-gray-600 hover:text-orange-600 transition-colors relative"
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    3
                   </span>
                 </button>
                 
@@ -198,7 +245,10 @@ export default function Header({ onSearch }: HeaderProps) {
                   Messages
                 </button>
                 {user.role === 'landlord' && (
-                  <button className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white p-2 rounded-lg">
+                  <button 
+                    onClick={() => setShowPropertyForm(true)}
+                    className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white p-2 rounded-lg"
+                  >
                     Publier une annonce
                   </button>
                 )}
@@ -228,6 +278,21 @@ export default function Header({ onSearch }: HeaderProps) {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         initialMode={loginMode}
+      />
+      
+      <PropertyForm 
+        isOpen={showPropertyForm}
+        onClose={() => setShowPropertyForm(false)}
+      />
+      
+      <AlertManager 
+        isOpen={showAlerts}
+        onClose={() => setShowAlerts(false)}
+      />
+      
+      <FavoritesList 
+        isOpen={showFavorites}
+        onClose={() => setShowFavorites(false)}
       />
     </>
   );

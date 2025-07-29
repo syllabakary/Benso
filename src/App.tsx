@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Property, SearchFilters as SearchFiltersType, Conversation } from './types';
-import { mockProperties, mockConversations, mockDashboardStats } from './data/mockData';
+import { Property, Conversation } from './types';
+import { mockConversations, mockDashboardStats } from './data/mockData';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { PropertyProvider, useProperty } from './contexts/PropertyContext';
+import { MessageProvider, useMessage } from './contexts/MessageContext';
 import Header from './components/layout/Header';
 import SearchFilters from './components/search/SearchFilters';
 import PropertyGrid from './components/property/PropertyGrid';
@@ -13,86 +15,16 @@ import { Map, Grid, LayoutGrid } from 'lucide-react';
 
 function AppContent() {
   const { user } = useAuth();
-  const [properties] = useState<Property[]>(mockProperties);
+  const { filteredProperties, filters, setFilters, viewMode, setViewMode, selectedProperty, setSelectedProperty, favorites, toggleFavorite, incrementViews } = useProperty();
   const [conversations] = useState<Conversation[]>(mockConversations);
-  const [filters, setFilters] = useState<SearchFiltersType>({});
   const [showFilters, setShowFilters] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'map' | 'split'>('grid');
-  const [selectedProperty, setSelectedProperty] = useState<Property | undefined>();
   const [selectedConversation, setSelectedConversation] = useState<Conversation | undefined>();
-  const [favorites, setFavorites] = useState<string[]>(['1', '3']); // Mock favorites
   const [loading, setLoading] = useState(false);
   const [currentView, setCurrentView] = useState<'search' | 'dashboard' | 'messages' | 'property'>('search');
 
-  // Filter properties based on search criteria
-  const filteredProperties = useMemo(() => {
-    return properties.filter(property => {
-      // Text search
-      if (filters.query) {
-        const query = filters.query.toLowerCase();
-        const searchText = `${property.title} ${property.description} ${property.address.city} ${property.address.street}`.toLowerCase();
-        if (!searchText.includes(query)) return false;
-      }
-
-      // Property type
-      if (filters.type && filters.type.length > 0) {
-        if (!filters.type.includes(property.type)) return false;
-      }
-
-      // Price range
-      if (filters.priceMin && property.price < filters.priceMin) return false;
-      if (filters.priceMax && property.price > filters.priceMax) return false;
-
-      // Area range
-      if (filters.areaMin && property.area < filters.areaMin) return false;
-      if (filters.areaMax && property.area > filters.areaMax) return false;
-
-      // Rooms
-      if (filters.rooms && filters.rooms.length > 0) {
-        if (!filters.rooms.includes(property.rooms)) return false;
-      }
-
-      // Bedrooms
-      if (filters.bedrooms && filters.bedrooms.length > 0) {
-        if (!filters.bedrooms.includes(property.bedrooms)) return false;
-      }
-
-      // City
-      if (filters.city) {
-        if (!property.address.city.toLowerCase().includes(filters.city.toLowerCase())) return false;
-      }
-
-      // Amenities
-      if (filters.furnished !== undefined && property.furnished !== filters.furnished) return false;
-      if (filters.parking !== undefined && property.parking !== filters.parking) return false;
-      if (filters.balcony !== undefined && property.balcony !== filters.balcony) return false;
-      if (filters.garden !== undefined && property.garden !== filters.garden) return false;
-      if (filters.elevator !== undefined && property.elevator !== filters.elevator) return false;
-
-      return true;
-    });
-  }, [properties, filters]);
-
-  const handleSearch = (query: string) => {
-    setFilters(prev => ({ ...prev, query }));
-  };
-
-  const handleFiltersChange = (newFilters: SearchFiltersType) => {
-    setFilters(newFilters);
-  };
-
   const handlePropertyClick = (property: Property) => {
+    incrementViews(property.id);
     setSelectedProperty(property);
-    // In a real app, this would navigate to property detail page
-    console.log('Property clicked:', property);
-  };
-
-  const handleFavorite = (propertyId: string) => {
-    setFavorites(prev => 
-      prev.includes(propertyId) 
-        ? prev.filter(id => id !== propertyId)
-        : [...prev, propertyId]
-    );
   };
 
   const handlePropertySelect = (property: Property) => {
@@ -108,13 +40,14 @@ function AppContent() {
   };
 
   const handleShowPropertyDetail = (property: Property) => {
+    incrementViews(property.id);
     setSelectedProperty(property);
     setCurrentView('property');
   };
 
   const handleBackToSearch = () => {
     setCurrentView('search');
-    setSelectedProperty(undefined);
+    setSelectedProperty(null);
   };
 
   const handleContactProperty = () => {
@@ -125,9 +58,9 @@ function AppContent() {
   if (currentView === 'dashboard' && user?.role === 'landlord') {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header onSearch={handleSearch} />
+        <Header />
         <LandlordDashboard 
-          properties={properties.filter(p => p.landlordId === user.id)} 
+          properties={filteredProperties.filter(p => p.landlordId === user.id)} 
           stats={mockDashboardStats}
         />
       </div>
@@ -137,7 +70,7 @@ function AppContent() {
   if (currentView === 'messages') {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header onSearch={handleSearch} />
+        <Header />
         <MessageCenter
           conversations={conversations}
           selectedConversation={selectedConversation}
@@ -153,7 +86,7 @@ function AppContent() {
         property={selectedProperty}
         onBack={handleBackToSearch}
         onContact={handleContactProperty}
-        onFavorite={() => handleFavorite(selectedProperty.id)}
+        onFavorite={() => toggleFavorite(selectedProperty.id)}
         isFavorite={favorites.includes(selectedProperty.id)}
       />
     );
@@ -162,11 +95,11 @@ function AppContent() {
   // Default search view
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header onSearch={handleSearch} />
+      <Header />
       
       <SearchFilters
         filters={filters}
-        onFiltersChange={handleFiltersChange}
+        onFiltersChange={setFilters}
         onToggle={() => setShowFilters(!showFilters)}
         isOpen={showFilters}
       />
@@ -224,7 +157,7 @@ function AppContent() {
           <PropertyGrid
             properties={filteredProperties}
             onPropertyClick={handleShowPropertyDetail}
-            onFavorite={handleFavorite}
+            onFavorite={toggleFavorite}
             favorites={favorites}
             loading={loading}
           />
@@ -247,7 +180,7 @@ function AppContent() {
               <PropertyGrid
                 properties={filteredProperties}
                 onPropertyClick={handleShowPropertyDetail}
-                onFavorite={handleFavorite}
+                onFavorite={toggleFavorite}
                 favorites={favorites}
                 loading={loading}
               />
@@ -270,7 +203,11 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <PropertyProvider>
+        <MessageProvider>
+          <AppContent />
+        </MessageProvider>
+      </PropertyProvider>
     </AuthProvider>
   );
 }
