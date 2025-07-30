@@ -43,7 +43,9 @@ export const mockProperties: Property[] = [
     title: 'Magnifique appartement 3 pièces avec balcon',
     description: 'Superbe appartement de 75m² situé dans un quartier calme et résidentiel. Entièrement rénové avec des matériaux de qualité. Cuisine équipée, salle de bain moderne, parquet au sol. Balcon avec vue dégagée. Proche transports et commerces.',
     type: 'apartment',
+    transactionType: 'rent',
     price: 1200,
+    salePrice: 350000,
     currency: 'EUR',
     area: 75,
     rooms: 3,
@@ -63,6 +65,8 @@ export const mockProperties: Property[] = [
     airConditioning: false,
     heating: 'central',
     energyClass: 'C',
+    constructionYear: 1995,
+    lastRenovation: 2020,
     address: {
       street: '15 rue de la Paix',
       city: 'Paris',
@@ -75,6 +79,7 @@ export const mockProperties: Property[] = [
       { id: '2', url: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800', order: 2, room: 'cuisine' },
       { id: '3', url: 'https://images.pexels.com/photos/2029667/pexels-photo-2029667.jpeg?auto=compress&cs=tinysrgb&w=800', order: 3, room: 'chambre' }
     ],
+    virtualTour360: 'https://example.com/virtual-tour-360',
     landlordId: '1',
     available: true,
     availableFrom: new Date('2024-03-01'),
@@ -111,7 +116,37 @@ export const mockProperties: Property[] = [
       charges: 150,
       deposit: 2400,
       agencyFees: 600
-    }
+    },
+    marketEstimation: {
+      estimatedPrice: 350000,
+      pricePerSqm: 4667,
+      marketTrend: 'rising',
+      confidenceLevel: 85,
+      lastUpdated: new Date(),
+      comparableProperties: ['2', '3', '4']
+    },
+    guarantees: {
+      resaleGuarantee: {
+        guaranteedPrice: 340000,
+        validUntil: new Date('2025-01-20'),
+        conditions: ['Vente dans les 6 mois', 'État identique']
+      },
+      rentalGuarantee: {
+        guaranteedRent: 1150,
+        duration: 12,
+        conditions: ['Gestion par l\'agence', 'Assurance loyers impayés']
+      }
+    },
+    diagnostics: [
+      {
+        id: '1',
+        type: 'energy',
+        result: 'Classe C - 150 kWh/m²/an',
+        validUntil: new Date('2034-01-20'),
+        documentUrl: '/documents/dpe-1.pdf',
+        inspector: 'Diagnostic Plus'
+      }
+    ]
   },
   {
     id: '2',

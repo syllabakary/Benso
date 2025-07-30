@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Filter, MapPin, Home, Euro, Maximize, Bed, Bath, Car, TreePine, Building } from 'lucide-react';
+import { Filter, MapPin, Home, Euro, Maximize, Bed, Bath, Car, TreePine, Building, ShoppingCart } from 'lucide-react';
 import { SearchFilters as SearchFiltersType } from '../../types';
 
 interface SearchFiltersProps {
@@ -18,6 +18,7 @@ export default function SearchFilters({ filters, onFiltersChange, onToggle, isOp
     { value: 'studio', label: 'Studio', icon: Home },
     { value: 'room', label: 'Chambre', icon: Bed },
     { value: 'office', label: 'Bureau', icon: Building },
+    { value: 'commercial', label: 'Commercial', icon: ShoppingCart },
   ];
 
   const handleFilterChange = (key: keyof SearchFiltersType, value: any) => {
@@ -62,6 +63,30 @@ export default function SearchFilters({ filters, onFiltersChange, onToggle, isOp
         {/* Expanded Filters */}
         {isOpen && (
           <div className="pb-6 space-y-6">
+            {/* Transaction Type */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">Type de transaction</h3>
+              <div className="flex space-x-4">
+                {[
+                  { value: 'rent', label: 'Location' },
+                  { value: 'sale', label: 'Vente' },
+                  { value: 'both', label: 'Les deux' }
+                ].map(({ value, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => handleFilterChange('transactionType', value)}
+                    className={`px-4 py-2 rounded-lg border transition-all ${
+                      localFilters.transactionType === value
+                        ? 'border-orange-500 bg-orange-50 text-orange-700'
+                        : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Property Type */}
             <div>
               <h3 className="text-sm font-medium text-gray-900 mb-3">Type de bien</h3>
@@ -86,15 +111,20 @@ export default function SearchFilters({ filters, onFiltersChange, onToggle, isOp
             {/* Price Range */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-sm font-medium text-gray-900 mb-3">Prix (€/mois)</h3>
+                <h3 className="text-sm font-medium text-gray-900 mb-3">
+                  Prix (€{localFilters.transactionType === 'sale' ? '' : '/mois'})
+                </h3>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">Min</label>
                     <input
                       type="number"
                       placeholder="0"
-                      value={localFilters.priceMin || ''}
-                      onChange={(e) => handleFilterChange('priceMin', e.target.value ? Number(e.target.value) : undefined)}
+                      value={localFilters.transactionType === 'sale' ? (localFilters.salePriceMin || '') : (localFilters.priceMin || '')}
+                      onChange={(e) => handleFilterChange(
+                        localFilters.transactionType === 'sale' ? 'salePriceMin' : 'priceMin', 
+                        e.target.value ? Number(e.target.value) : undefined
+                      )}
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -103,8 +133,11 @@ export default function SearchFilters({ filters, onFiltersChange, onToggle, isOp
                     <input
                       type="number"
                       placeholder="∞"
-                      value={localFilters.priceMax || ''}
-                      onChange={(e) => handleFilterChange('priceMax', e.target.value ? Number(e.target.value) : undefined)}
+                      value={localFilters.transactionType === 'sale' ? (localFilters.salePriceMax || '') : (localFilters.priceMax || '')}
+                      onChange={(e) => handleFilterChange(
+                        localFilters.transactionType === 'sale' ? 'salePriceMax' : 'priceMax', 
+                        e.target.value ? Number(e.target.value) : undefined
+                      )}
                       className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     />
                   </div>
@@ -201,6 +234,30 @@ export default function SearchFilters({ filters, onFiltersChange, onToggle, isOp
                     }`}
                   >
                     <Icon className="h-4 w-4" />
+                    <span className="text-sm">{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Advanced Options */}
+            <div>
+              <h3 className="text-sm font-medium text-gray-900 mb-3">Options avancées</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {[
+                  { key: 'withVirtualTour', label: 'Visite virtuelle' },
+                  { key: 'withGuarantee', label: 'Avec garantie' },
+                  { key: 'agencyOnly', label: 'Agences uniquement' }
+                ].map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => handleFilterChange(key as keyof SearchFiltersType, !localFilters[key as keyof SearchFiltersType])}
+                    className={`flex items-center justify-center p-3 rounded-lg border transition-all ${
+                      localFilters[key as keyof SearchFiltersType]
+                        ? 'border-orange-500 bg-orange-50 text-orange-700'
+                        : 'border-gray-200 hover:border-orange-300'
+                    }`}
+                  >
                     <span className="text-sm">{label}</span>
                   </button>
                 ))}

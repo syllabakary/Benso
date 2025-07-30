@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, User, Heart, MessageCircle, Plus, Menu, X, Bell, Settings, LogOut, AlertTriangle } from 'lucide-react';
+import { Search, User, Heart, MessageCircle, Plus, Menu, X, Bell, Settings, LogOut, AlertTriangle, Calculator, Home as HomeIcon, Euro } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProperty } from '../../contexts/PropertyContext';
 import { useMessage } from '../../contexts/MessageContext';
@@ -7,6 +7,9 @@ import LoginModal from '../auth/LoginModal';
 import PropertyForm from '../property/PropertyForm';
 import AlertManager from '../alerts/AlertManager';
 import FavoritesList from '../favorites/FavoritesList';
+import PropertyEstimator from '../estimation/PropertyEstimator';
+import FinancingCalculator from '../financing/FinancingCalculator';
+import RentalManagement from '../rental/RentalManagement';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
@@ -19,6 +22,9 @@ export default function Header({ onSearch }: HeaderProps) {
   const [showPropertyForm, setShowPropertyForm] = useState(false);
   const [showAlerts, setShowAlerts] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [showEstimator, setShowEstimator] = useState(false);
+  const [showFinancing, setShowFinancing] = useState(false);
+  const [showRentalManagement, setShowRentalManagement] = useState(false);
   const [loginMode, setLoginMode] = useState<'login' | 'register'>('login');
   const [searchQuery, setSearchQuery] = useState('');
   
@@ -83,6 +89,32 @@ export default function Header({ onSearch }: HeaderProps) {
                   >
                     <Plus className="h-4 w-4" />
                     <span>Publier</span>
+                  </button>
+                )}
+                
+                <button 
+                  onClick={() => setShowEstimator(true)}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                >
+                  <Calculator className="h-5 w-5" />
+                  <span>Estimer</span>
+                </button>
+                
+                <button 
+                  onClick={() => setShowFinancing(true)}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                >
+                  <Euro className="h-5 w-5" />
+                  <span>Financer</span>
+                </button>
+                
+                {user?.role === 'landlord' && (
+                  <button 
+                    onClick={() => setShowRentalManagement(true)}
+                    className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                  >
+                    <HomeIcon className="h-5 w-5" />
+                    <span>Gestion</span>
                   </button>
                 )}
                 
@@ -293,6 +325,21 @@ export default function Header({ onSearch }: HeaderProps) {
       <FavoritesList 
         isOpen={showFavorites}
         onClose={() => setShowFavorites(false)}
+      />
+      
+      <PropertyEstimator 
+        isOpen={showEstimator}
+        onClose={() => setShowEstimator(false)}
+      />
+      
+      <FinancingCalculator 
+        isOpen={showFinancing}
+        onClose={() => setShowFinancing(false)}
+      />
+      
+      <RentalManagement 
+        isOpen={showRentalManagement}
+        onClose={() => setShowRentalManagement(false)}
       />
     </>
   );
