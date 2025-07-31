@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { 
+  Calendar,
   ArrowLeft, 
   Heart, 
   Share2, 
@@ -23,6 +24,8 @@ import {
   Flag
 } from 'lucide-react';
 import { Property, Review } from '../../types';
+import VisitScheduler from '../visits/VisitScheduler';
+import { useVisit } from '../../contexts/VisitContext';
 
 interface PropertyDetailProps {
   property: Property;
@@ -40,6 +43,8 @@ export default function PropertyDetail({
   isFavorite 
 }: PropertyDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showVisitScheduler, setShowVisitScheduler] = useState(false);
+  const { addVisit } = useVisit();
   const [showAllPhotos, setShowAllPhotos] = useState(false);
 
   const mockReviews: Review[] = [
@@ -68,6 +73,11 @@ export default function PropertyDetail({
   ];
 
   const averageRating = mockReviews.reduce((acc, review) => acc + review.rating, 0) / mockReviews.length;
+
+  const handleScheduleVisit = (visit: any) => {
+    addVisit(visit);
+    setShowVisitScheduler(false);
+  };
 
   const amenities = [
     { key: 'furnished', label: 'Meublé', icon: Building, available: property.furnished },
@@ -368,7 +378,8 @@ export default function PropertyDetail({
                     <span>Appeler</span>
                   </button>
                   
-                  <button className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+                    onClick={() => setShowVisitScheduler(true)}
+                    className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
                     <Calendar className="h-5 w-5" />
                     <span>Programmer visite</span>
                   </button>
@@ -427,6 +438,13 @@ export default function PropertyDetail({
           </div>
         </div>
       </div>
+      
+      <VisitScheduler
+        property={property}
+        isOpen={showVisitScheduler}
+        onClose={() => setShowVisitScheduler(false)}
+        onSchedule={handleScheduleVisit}
+      />
     </div>
   );
 }
