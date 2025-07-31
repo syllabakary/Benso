@@ -13,9 +13,10 @@ import RentalManagement from '../rental/RentalManagement';
 
 interface HeaderProps {
   onSearch?: (query: string) => void;
+  onShowHome?: () => void;
 }
 
-export default function Header({ onSearch }: HeaderProps) {
+export default function Header({ onSearch, onShowHome }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -56,9 +57,12 @@ export default function Header({ onSearch }: HeaderProps) {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
+              <button 
+                onClick={onShowHome}
+                className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent hover:from-orange-500 hover:to-orange-700 transition-all"
+              >
                 BENSO
-              </h1>
+              </button>
             </div>
           </div>
 

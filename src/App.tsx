@@ -4,6 +4,7 @@ import { mockConversations, mockDashboardStats } from './data/mockData';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { PropertyProvider, useProperty } from './contexts/PropertyContext';
 import { MessageProvider, useMessage } from './contexts/MessageContext';
+import { VisitProvider } from './contexts/VisitContext';
 import Header from './components/layout/Header';
 import SearchFilters from './components/search/SearchFilters';
 import PropertyGrid from './components/property/PropertyGrid';
@@ -11,6 +12,8 @@ import MapView from './components/map/MapView';
 import LandlordDashboard from './components/dashboard/LandlordDashboard';
 import MessageCenter from './components/messaging/MessageCenter';
 import PropertyDetail from './components/property/PropertyDetail';
+import HomePage from './components/home/HomePage';
+import InteractiveMap from './components/map/InteractiveMap';
 import { Map, Grid, LayoutGrid } from 'lucide-react';
 
 function AppContent() {
@@ -20,7 +23,7 @@ function AppContent() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | undefined>();
   const [loading, setLoading] = useState(false);
-  const [currentView, setCurrentView] = useState<'search' | 'dashboard' | 'messages' | 'property'>('search');
+  const [currentView, setCurrentView] = useState<'home' | 'search' | 'dashboard' | 'messages' | 'property'>('home');
 
   const handlePropertyClick = (property: Property) => {
     incrementViews(property.id);
@@ -52,6 +55,11 @@ function AppContent() {
 
   const handleContactProperty = () => {
     setCurrentView('messages');
+  };
+
+  const handleShowHome = () => {
+    setCurrentView('home');
+    setSelectedProperty(null);
   };
 
   // Show different views based on current state
@@ -92,10 +100,19 @@ function AppContent() {
     );
   }
 
+  if (currentView === 'home') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header onShowHome={handleShowHome} />
+        <HomePage />
+      </div>
+    );
+  }
+
   // Default search view
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header onShowHome={handleShowHome} />
       
       <SearchFilters
         filters={filters}
@@ -165,7 +182,7 @@ function AppContent() {
 
         {viewMode === 'map' && (
           <div className="h-[600px]">
-            <MapView
+            <InteractiveMap
               properties={filteredProperties}
               selectedProperty={selectedProperty}
               onPropertySelect={handlePropertySelect}
@@ -186,7 +203,7 @@ function AppContent() {
               />
             </div>
             <div className="h-full">
-              <MapView
+              <InteractiveMap
                 properties={filteredProperties}
                 selectedProperty={selectedProperty}
                 onPropertySelect={handlePropertySelect}
@@ -204,9 +221,11 @@ function App() {
   return (
     <AuthProvider>
       <PropertyProvider>
-        <MessageProvider>
-          <AppContent />
-        </MessageProvider>
+        <VisitProvider>
+          <MessageProvider>
+            <AppContent />
+          </MessageProvider>
+        </VisitProvider>
       </PropertyProvider>
     </AuthProvider>
   );

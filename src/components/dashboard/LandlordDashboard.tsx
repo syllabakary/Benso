@@ -15,6 +15,8 @@ import {
   Trash2
 } from 'lucide-react';
 import { Property, DashboardStats } from '../../types';
+import VisitManager from '../visits/VisitManager';
+import { useVisit } from '../../contexts/VisitContext';
 
 interface LandlordDashboardProps {
   properties: Property[];
@@ -23,6 +25,7 @@ interface LandlordDashboardProps {
 
 export default function LandlordDashboard({ properties, stats }: LandlordDashboardProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'properties' | 'analytics' | 'messages'>('overview');
+  const { getVisitsByLandlord, updateVisit, getPendingVisitsCount } = useVisit();
 
   const tabs = [
     { id: 'overview', label: 'Vue d\'ensemble', icon: BarChart3 },
@@ -30,6 +33,9 @@ export default function LandlordDashboard({ properties, stats }: LandlordDashboa
     { id: 'analytics', label: 'Statistiques', icon: TrendingUp },
     { id: 'messages', label: 'Messages', icon: MessageCircle },
   ];
+
+  const landlordVisits = getVisitsByLandlord('1'); // ID du propriétaire connecté
+  const pendingVisitsCount = getPendingVisitsCount('1');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -99,6 +105,22 @@ export default function LandlordDashboard({ properties, stats }: LandlordDashboa
           <div className="bg-white p-6 rounded-xl shadow-sm">
             <div className="flex items-center justify-between">
               <div>
+                <p className="text-sm font-medium text-gray-600">Demandes de visite</p>
+                <p className="text-3xl font-bold text-gray-900">{pendingVisitsCount}</p>
+              </div>
+              <div className="p-3 bg-purple-100 rounded-full">
+                <Calendar className="h-6 w-6 text-purple-600" />
+              </div>
+            </div>
+            <div className="mt-4 flex items-center text-sm">
+              <span className="text-orange-600 font-medium">En attente</span>
+              <span className="text-gray-500 ml-1">de confirmation</span>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
                 <p className="text-sm font-medium text-gray-600">Note moyenne</p>
                 <p className="text-3xl font-bold text-gray-900">{stats.averageRating.toFixed(1)}</p>
               </div>
@@ -117,6 +139,22 @@ export default function LandlordDashboard({ properties, stats }: LandlordDashboa
         <div className="bg-white rounded-xl shadow-sm">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
+              <button
+                onClick={() => setActiveTab('visits')}
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === 'visits'
+                    ? 'border-orange-500 text-orange-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                <Calendar className="h-5 w-5" />
+                <span>Visites</span>
+                {pendingVisitsCount > 0 && (
+                  <span className="bg-orange-500 text-white text-xs rounded-full px-2 py-1">
+                    {pendingVisitsCount}
+                  </span>
+                )}
+              </button>
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
@@ -183,6 +221,14 @@ export default function LandlordDashboard({ properties, stats }: LandlordDashboa
                   </div>
                 </div>
               </div>
+            )}
+
+            {activeTab === 'visits' && (
+              <VisitManager
+                visits={landlordVisits}
+                properties={properties}
+                onUpdateVisit={updateVisit}
+              />
             )}
 
             {activeTab === 'properties' && (
