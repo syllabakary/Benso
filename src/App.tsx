@@ -102,7 +102,7 @@ function AppContent() {
 
   if (currentView === 'home') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Header onShowHome={handleShowHome} />
         <HomePage />
       </div>

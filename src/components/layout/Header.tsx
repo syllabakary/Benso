@@ -51,39 +51,49 @@ export default function Header({ onSearch, onShowHome }: HeaderProps) {
 
   return (
     <>
-      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
+      <header className="absolute top-0 left-0 right-0 z-50 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <button 
                 onClick={onShowHome}
-                className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent hover:from-orange-500 hover:to-orange-700 transition-all"
+                className="text-3xl font-bold text-white hover:text-orange-400 transition-all"
               >
                 BENSO
               </button>
             </div>
           </div>
 
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-            <form onSubmit={handleSearch} className="w-full">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Rechercher par ville, quartier..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                />
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-              </div>
-            </form>
+          {/* Navigation principale */}
+          <div className="hidden md:flex items-center space-x-8">
+            <button className="text-white hover:text-orange-400 font-medium transition-colors">
+              DEVENIR FRANCHISÉ
+            </button>
+            <button className="text-white hover:text-orange-400 font-medium transition-colors">
+              NOUS REJOINDRE
+            </button>
           </div>
 
-          {/* Navigation */}
+          {/* Icônes utilisateur */}
           <div className="hidden md:flex items-center space-x-4">
+            <button className="p-2 text-white hover:text-orange-400 transition-colors">
+              <Heart className="h-6 w-6" />
+            </button>
+            <button className="p-2 text-white hover:text-orange-400 transition-colors">
+              <Bell className="h-6 w-6" />
+            </button>
+            <button className="p-2 text-white hover:text-orange-400 transition-colors">
+              <User className="h-6 w-6" />
+            </button>
+            <button className="p-2 text-white hover:text-orange-400 transition-colors">
+              <Menu className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Navigation cachée - fonctionnalités */}
+          <div className="hidden items-center space-x-4">
             {user ? (
               <>
                 {user.role === 'landlord' && (
@@ -241,49 +251,33 @@ export default function Header({ onSearch, onShowHome }: HeaderProps) {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-600 hover:text-orange-600"
+              className="p-2 text-white hover:text-orange-400"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
-
-        {/* Mobile Search */}
-        <div className="md:hidden pb-4">
-          <form onSubmit={handleSearch}>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-              />
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-            </div>
-          </form>
-        </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
+        <div className="md:hidden bg-black/90 backdrop-blur-sm">
           <div className="px-4 py-2 space-y-2">
             {user ? (
               <>
-                <button className="w-full text-left p-2 text-gray-600 hover:text-orange-600">
+                <button className="w-full text-left p-2 text-white hover:text-orange-400">
                   Mon profil
                 </button>
-                <button className="w-full text-left p-2 text-gray-600 hover:text-orange-600">
+                <button className="w-full text-left p-2 text-white hover:text-orange-400">
                   Mes favoris
                 </button>
-                <button className="w-full text-left p-2 text-gray-600 hover:text-orange-600">
+                <button className="w-full text-left p-2 text-white hover:text-orange-400">
                   Messages
                 </button>
                 {user.role === 'landlord' && (
                   <button 
                     onClick={() => setShowPropertyForm(true)}
-                    className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white p-2 rounded-lg"
+                    className="w-full bg-orange-600 text-white p-2 rounded-lg"
                   >
                     Publier une annonce
                   </button>
@@ -293,13 +287,13 @@ export default function Header({ onSearch, onShowHome }: HeaderProps) {
               <>
                 <button 
                   onClick={() => handleLogin('login')}
-                  className="w-full text-left p-2 text-gray-600 hover:text-orange-600"
+                  className="w-full text-left p-2 text-white hover:text-orange-400"
                 >
                   Connexion
                 </button>
                 <button 
                   onClick={() => handleLogin('register')}
-                  className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white p-2 rounded-lg"
+                  className="w-full bg-orange-600 text-white p-2 rounded-lg"
                 >
                   S'inscrire
                 </button>
