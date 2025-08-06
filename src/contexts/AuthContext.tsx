@@ -1,13 +1,20 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '../types';
+
+interface User {
+  id: string;
+  nom: string;
+  age: number;
+  email: string;
+  localite: string;
+  nationalite: string;
+}
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (userData: Partial<User>) => Promise<void>;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (userData: Omit<User, 'id'> & { password: string }) => Promise<boolean>;
   logout: () => void;
-  updateProfile: (userData: Partial<User>) => Promise<void>;
-  loading: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,74 +29,61 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate checking for existing session
+    // Récupérer l'utilisateur depuis le localStorage au démarrage
     const savedUser = localStorage.getItem('benso_user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
-    setLoading(true);
+  const login = async (email: string, password: string): Promise<boolean> => {
+    setIsLoading(true);
     try {
-      // Simulate API call
+      // Simulation API call - remplacer par vraie API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
+      // Utilisateur fictif pour demo
       const mockUser: User = {
         id: '1',
+        nom: 'John Doe',
+        age: 30,
         email,
-        firstName: 'Jean',
-        lastName: 'Dupont',
-        role: 'landlord',
-        isVerified: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        preferences: {
-          notifications: { email: true, sms: false, push: true },
-          searchAlerts: true,
-          language: 'fr',
-          currency: 'EUR'
-        }
+        localite: 'Paris',
+        nationalite: 'Française',
       };
       
       setUser(mockUser);
       localStorage.setItem('benso_user', JSON.stringify(mockUser));
+      return true;
+    } catch (error) {
+      return false;
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const register = async (userData: Partial<User>) => {
-    setLoading(true);
+  const register = async (userData: Omit<User, 'id'> & { password: string }): Promise<boolean> => {
+    setIsLoading(true);
     try {
-      // Simulate API call
+      // Simulation API call - remplacer par vraie API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       const newUser: User = {
-        id: Date.now().toString(),
-        email: userData.email!,
-        firstName: userData.firstName!,
-        lastName: userData.lastName!,
-        role: userData.role || 'tenant',
-        isVerified: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        preferences: {
-          notifications: { email: true, sms: false, push: true },
-          searchAlerts: true,
-          language: 'fr',
-          currency: 'EUR'
-        }
+        ...userData,
+        id: Date.now().toString()
       };
       
       setUser(newUser);
       localStorage.setItem('benso_user', JSON.stringify(newUser));
+      return true;
+    } catch (error) {
+      return false;
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -98,31 +92,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('benso_user');
   };
 
-  const updateProfile = async (userData: Partial<User>) => {
-    if (!user) return;
-    
-    setLoading(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const updatedUser = { ...user, ...userData, updatedAt: new Date() };
-      setUser(updatedUser);
-      localStorage.setItem('benso_user', JSON.stringify(updatedUser));
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <AuthContext.Provider value={{
-      user,
-      login,
-      register,
-      logout,
-      updateProfile,
-      loading
-    }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
