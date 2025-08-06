@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Calendar, User, Mail, Phone, MapPin, Home, Euro, Send, CheckCircle } from 'lucide-react';
+import { useReservation } from '../contexts/ReservationContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const ReservationPage: React.FC = () => {
   const [step, setStep] = useState(1);
+  const { createReservation, isLoading } = useReservation();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     // Informations personnelles
-    nom: '',
-    email: '',
+    nom: user?.nom || '',
+    email: user?.email || '',
     telephone: '',
     
     // Critères de recherche
-    typeTransaction: 'louer',
+    typeTransaction: 'louer' as 'louer' | 'acheter',
     typeBien: '',
     localisation: '',
     budgetMin: '',
@@ -26,10 +30,30 @@ const ReservationPage: React.FC = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ici on enverrait les données à l'API
-    setIsSubmitted(true);
+    
+    try {
+      await createReservation({
+        nom: formData.nom,
+        email: formData.email,
+        telephone: formData.telephone,
+        typeTransaction: formData.typeTransaction,
+        typeBien: formData.typeBien,
+        localisation: formData.localisation,
+        budgetMin: formData.budgetMin ? parseInt(formData.budgetMin) : undefined,
+        budgetMax: formData.budgetMax ? parseInt(formData.budgetMax) : undefined,
+        surfaceMin: formData.surface ? parseInt(formData.surface) : undefined,
+        pieces: formData.pieces,
+        dateVisite: formData.dateVisite,
+        heureVisite: formData.heureVisite as 'matin' | 'apres-midi' | 'soir',
+        commentaires: formData.commentaires
+      });
+      
+      setIsSubmitted(true);
+    } catch (error) {
+      alert('Erreur lors de la création de la réservation. Veuillez réessayer.');
+    }
   };
 
   const nextStep = () => {
@@ -420,10 +444,11 @@ const ReservationPage: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-lg hover:from-orange-600 hover:to-amber-700 transition-all duration-200 flex items-center space-x-2"
+                  disabled={isLoading}
+                  className="bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-lg hover:from-orange-600 hover:to-amber-700 transition-all duration-200 flex items-center justify-center space-x-2"
                 >
                   <Send className="h-5 w-5" />
-                  <span>Confirmer la réservation</span>
+                  <span>{isLoading ? 'Envoi en cours...' : 'Confirmer la réservation'}</span>
                 </button>
               </div>
             </div>
