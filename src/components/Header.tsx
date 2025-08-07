@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
+    <header className="bg-white text-1xl shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -33,6 +33,9 @@ const Header: React.FC = () => {
             <Link to="/" className="text-gray-700 hover:text-orange-500 transition-colors font-medium">
               Accueil
             </Link>
+              <Link to="/acheter" className="text-gray-700 hover:text-orange-500 transition-colors font-medium">
+              Â propos de nous
+             </Link>
             <Link to="/acheter" className="text-gray-700 hover:text-orange-500 transition-colors font-medium">
               Acheter
             </Link>

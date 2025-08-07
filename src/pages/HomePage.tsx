@@ -188,8 +188,8 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* Annonces récentes avec amélioration */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-white">
+        <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 px-6 py-2 rounded-full mb-6 border border-blue-200">
               <Clock className="w-5 h-5 mr-2 text-blue-600" />
@@ -227,7 +227,7 @@ const HomePage: React.FC = () => {
               <div className="bg-gradient-to-br from-orange-500 to-amber-600 text-white p-4 rounded-2xl w-fit mb-8 group-hover:scale-110 transition-transform duration-300">
                 <Shield className="h-10 w-10" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Transactions 100% Sécurisées</h3>
+              <h3 className="text-1xl font-bold text-gray-900 mb-6">Transactions 100% Sécurisées</h3>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Toutes nos transactions sont sécurisées par des protocoles bancaires avancés et accompagnées par des notaires et professionnels certifiés de confiance.
               </p>
@@ -241,7 +241,7 @@ const HomePage: React.FC = () => {
               <div className="bg-gradient-to-br from-orange-500 to-amber-600 text-white p-4 rounded-2xl w-fit mb-8 group-hover:scale-110 transition-transform duration-300">
                 <TrendingUp className="h-10 w-10" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Meilleurs Prix Garantis</h3>
+              <h3 className="text-1xl font-bold text-gray-900 mb-6">Meilleurs Prix Garantis</h3>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Notre équipe d'experts négocie pour vous les meilleures conditions du marché. Économisez jusqu'à 15% sur votre achat ou location.
               </p>
@@ -255,7 +255,7 @@ const HomePage: React.FC = () => {
               <div className="bg-gradient-to-br from-orange-500 to-amber-600 text-white p-4 rounded-2xl w-fit mb-8 group-hover:scale-110 transition-transform duration-300">
                 <Users className="h-10 w-10" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Accompagnement VIP Personnalisé</h3>
+              <h3 className="text-1xl font-bold text-gray-900 mb-6">Accompagnement VIP Personnalisé</h3>
               <p className="text-gray-600 mb-8 leading-relaxed">
                 Un agent immobilier dédié et expérimenté vous accompagne personnellement de A à Z, 24h/7j, dans votre projet immobilier.
               </p>

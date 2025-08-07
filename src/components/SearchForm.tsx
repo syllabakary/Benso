@@ -47,7 +47,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
             <select
               value={searchData.transactionType}
               onChange={(e) => setSearchData({ ...searchData, transactionType: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white"
+              className="w-full text-black px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white"
             >
               <option value="louer">Louer</option>
               <option value="acheter">Acheter</option>
@@ -59,7 +59,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
         {/* Localisation */}
         <div className="relative">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Où souhaitez-vous habiter ?
+            souhaitez-vous habiter ?
           </label>
           <div className="relative">
             <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -68,7 +68,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
               placeholder="Ville, quartier..."
               value={searchData.location}
               onChange={(e) => setSearchData({ ...searchData, location: e.target.value })}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+              className="w-full text-black pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
           </div>
         </div>
@@ -83,7 +83,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
             <select
               value={searchData.propertyType}
               onChange={(e) => setSearchData({ ...searchData, propertyType: e.target.value })}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white"
+              className="w-full text-black  pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors appearance-none bg-white"
             >
               <option value="">Tous les types</option>
               <option value="appartement">Appartement</option>
@@ -109,7 +109,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
               placeholder={searchData.transactionType === 'acheter' ? '100000' : '500'}
               value={searchData.minPrice}
               onChange={(e) => setSearchData({ ...searchData, minPrice: e.target.value })}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+              className="w-full text-black pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
           </div>
         </div>
@@ -126,7 +126,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ searchData, setSearchData }) =>
               placeholder={searchData.transactionType === 'acheter' ? '500000' : '2000'}
               value={searchData.maxPrice}
               onChange={(e) => setSearchData({ ...searchData, maxPrice: e.target.value })}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+              className="w-full text-black  pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
           </div>
         </div>
