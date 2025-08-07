@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Phone, Mail, MapPin, MessageCircle, Clock, Send, Star, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Phone, Mail, MapPin, MessageCircle, Clock, Send, Star, CheckCircle, Award, Target, Eye, Heart, Play, TrendingUp, Shield, User } from 'lucide-react';
 
 const AboutPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('mission');
