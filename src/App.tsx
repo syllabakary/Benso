@@ -14,6 +14,7 @@ import { PropertyProvider } from './contexts/PropertyContext';
 import { ReservationProvider } from './contexts/ReservationContext';
 import { FavoriteProvider } from './contexts/FavoriteContext';
 import { CurrencyProvider } from './components/CurrencyToggle';
+import AboutPage from './pages/Apropo';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/auth" element={<AuthPage />} />
                       <Route path="/tableau-de-bord" element={<DashboardPage />} />
+                      <Route path="/apropos" element={<AboutPage />} />
                     </Routes>
                   </main>
                   <Footer />
