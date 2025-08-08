@@ -18,19 +18,19 @@ import {
   Waves,
   Zap,
   Shield,
+  Mail,
+  User,
+  Home,
+  Check,
 } from 'lucide-react';
 import PropertyCard from '../components/PropertyCard';
 
-// ✅ Fonction format prix avec EUR + FCFA
 const formatPrice = (price: number, type: string) => {
   const priceEUR = `${price.toLocaleString()} €`;
   const priceFCFA = `${(price * 655.957).toLocaleString()} FCFA`;
-
-  const formatted = `${priceEUR} / ${priceFCFA}`;
-  return type === 'vente' ? formatted : `${formatted} / mois`;
+  return type === 'vente' ? `${priceEUR} / ${priceFCFA}` : `${priceEUR} / ${priceFCFA} / mois`;
 };
 
-// ✅ Icônes équipements
 const getFeatureIcon = (feature: string) => {
   switch (feature.toLowerCase()) {
     case 'balcon':
@@ -53,9 +53,17 @@ const getFeatureIcon = (feature: string) => {
 const PropertyPage: React.FC = () => {
   const { id } = useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showReservationForm, setShowReservationForm] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    propertyId: id,
+    propertyTitle: '',
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // 🔹 Données fictives (à remplacer par API Laravel)
   const property = {
     id: '1',
     title: 'Appartement moderne 3 pièces avec balcon',
@@ -81,11 +89,7 @@ const PropertyPage: React.FC = () => {
       'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg',
     ],
     features: ['Balcon', 'Parking', 'Ascenseur', 'Climatisation'],
-    description: `Magnifique appartement lumineux et parfaitement agencé, situé dans un immeuble moderne de Cocody.
-
-Il se compose d'un grand séjour avec balcon, cuisine équipée, deux chambres spacieuses, salle de bain moderne et parking privé.
-
-Idéalement situé près des commerces et transports.`,
+    description: `Magnifique appartement lumineux et parfaitement agencé, situé dans un immeuble moderne de Cocody.`,
     agent: {
       name: 'Sophie Martin',
       phone: '+2250707070707',
@@ -94,7 +98,6 @@ Idéalement situé près des commerces et transports.`,
     },
   };
 
-  // 🔹 Biens similaires
   const similarProperties = [
     {
       id: '2',
@@ -122,16 +125,33 @@ Idéalement situé près des commerces et transports.`,
     },
   ];
 
-  // 🔹 Navigation images
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
       prev === property.images.length - 1 ? 0 : prev + 1
     );
   };
+
   const prevImage = () => {
     setCurrentImageIndex((prev) =>
       prev === 0 ? property.images.length - 1 : prev - 1
     );
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+      propertyTitle: property.title
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Ici vous enverriez les données à votre API Laravel
+    setFormSubmitted(true);
+    setTimeout(() => setShowContactForm(false), 3000);
   };
 
   return (
@@ -143,7 +163,6 @@ Idéalement situé près des commerces et transports.`,
           alt={property.title}
           className="w-full h-full object-cover transition-all duration-500 ease-in-out transform hover:scale-105"
         />
-        {/* Boutons navigation */}
         <button
           onClick={prevImage}
           className="absolute left-4 top-1/2 bg-white/80 p-2 rounded-full hover:bg-white transition"
@@ -156,7 +175,6 @@ Idéalement situé près des commerces et transports.`,
         >
           <ChevronRight />
         </button>
-        {/* Indicateurs */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {property.images.map((_, i) => (
             <button
@@ -166,7 +184,6 @@ Idéalement situé près des commerces et transports.`,
             />
           ))}
         </div>
-        {/* Statut */}
         <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full">
           {property.status}
         </div>
@@ -190,6 +207,15 @@ Idéalement situé près des commerces et transports.`,
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Caractéristiques</h2>
             <div className="grid grid-cols-2 gap-4">
+              <div className="flex items-center gap-2">
+                <Home className="text-orange-500" /> {property.surface} m²
+              </div>
+              <div className="flex items-center gap-2">
+                <Bed className="text-orange-500" /> {property.bedrooms} chambres
+              </div>
+              <div className="flex items-center gap-2">
+                <Bath className="text-orange-500" /> {property.bathrooms} salle(s) de bain
+              </div>
               {property.features.map((f, i) => {
                 const Icon = getFeatureIcon(f);
                 return (
@@ -204,52 +230,201 @@ Idéalement situé près des commerces et transports.`,
           {/* Description */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">Description</h2>
-            <p className="text-gray-700">{property.description}</p>
+            <p className="text-gray-700 whitespace-pre-line">{property.description}</p>
           </div>
         </div>
 
         {/* Sidebar contact */}
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-xl shadow-lg">
+          <div className="bg-white p-6 rounded-xl shadow-lg sticky top-6">
             <h3 className="text-lg font-bold mb-4">Contacter l'agent</h3>
-            <a
-              href={`https://wa.me/${property.agent.whatsapp}`}
-              className="block bg-green-500 text-white text-center p-3 rounded-lg mb-3 hover:bg-green-600"
+            
+            {/* Options de contact rapide */}
+            <div className="space-y-3 mb-6">
+              <a
+                href={`https://wa.me/${property.agent.whatsapp}`}
+                className="flex items-center justify-center gap-2 bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition"
+              >
+                <MessageCircle className="w-5 h-5" /> WhatsApp
+              </a>
+              <a
+                href={`tel:${property.agent.phone}`}
+                className="flex items-center justify-center gap-2 bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+              >
+                <Phone className="w-5 h-5" /> Appeler
+              </a>
+              <a
+                href={`mailto:${property.agent.email}`}
+                className="flex items-center justify-center gap-2 bg-orange-500 text-white p-3 rounded-lg hover:bg-orange-600 transition"
+              >
+                <Mail className="w-5 h-5" /> Email
+              </a>
+            </div>
+
+            {/* Bouton demande de contact */}
+            <button
+              onClick={() => setShowContactForm(true)}
+              className="w-full bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-900 transition font-medium"
             >
-              <MessageCircle className="inline mr-2" /> WhatsApp
-            </a>
-            <a
-              href={`tel:${property.agent.phone}`}
-              className="block bg-blue-500 text-white text-center p-3 rounded-lg hover:bg-blue-600"
-            >
-              <Phone className="inline mr-2" /> Appeler
-            </a>
+              Demande d'information
+            </button>
+          </div>
+
+          {/* Détails rapides */}
+          <div className="bg-white p-6 rounded-xl shadow-lg">
+            <h3 className="text-lg font-bold mb-4">Détails du bien</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Référence</span>
+                <span className="font-medium">{property.reference}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Disponibilité</span>
+                <span className="font-medium">{property.availability}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Étage</span>
+                <span className="font-medium">{property.floor}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">Charges</span>
+                <span className="font-medium">{property.charges} €</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* Formulaire de contact modal */}
+      {showContactForm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6 relative">
+            <button 
+              onClick={() => setShowContactForm(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
+            
+            {formSubmitted ? (
+              <div className="text-center py-8">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                  <Check className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Demande envoyée!</h3>
+                <p className="text-gray-500">
+                  Nous vous contacterons dans les plus brefs délais.
+                </p>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-xl font-bold mb-2">Demande d'information</h3>
+                <p className="text-gray-600 mb-6">Pour le bien: {property.title}</p>
+                
+                <form onSubmit={handleSubmit}>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                        Nom complet
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 p-2 border"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 p-2 border"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                        Téléphone
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 p-2 border"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        required
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 p-2 border"
+                        defaultValue={`Je suis intéressé(e) par le bien ${property.reference} - ${property.title}`}
+                      />
+                    </div>
+                    
+                    <input type="hidden" name="propertyId" value={property.id} />
+                    <input type="hidden" name="propertyTitle" value={property.title} />
+                    
+                    <div>
+                      <button
+                        type="submit"
+                        className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                      >
+                        Envoyer la demande
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Biens similaires */}
       <div className="max-w-7xl mx-auto mt-12 p-6">
         <h2 className="text-2xl font-bold mb-6">Biens similaires</h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {similarProperties.map((p) => (
             <PropertyCard key={p.id} property={p} />
           ))}
         </div>
       </div>
 
-      {/* Section pub */}
-      <section className="bg-gradient-to-r from-orange-50 to-amber-50 p-6 rounded-xl shadow-lg max-w-7xl mx-auto my-12 text-center">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Annonce sponsorisée</h3>
-        <p className="text-gray-700 mb-4">
-          Profitez de nos offres spéciales pour trouver votre futur logement.
-        </p>
-        <a
-          href="#"
-          className="inline-block bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition"
-        >
-          Voir l'offre
-        </a>
+      {/* Section CTA */}
+      <section className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-12 mt-12">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h3 className="text-2xl font-bold mb-4">Vous ne trouvez pas ce que vous cherchez?</h3>
+          <p className="text-lg mb-6 max-w-2xl mx-auto">
+            Notre équipe peut vous aider à trouver le bien parfait selon vos critères.
+          </p>
+          <button
+            onClick={() => setShowContactForm(true)}
+            className="bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <User className="w-5 h-5" />
+              Demander une recherche personnalisée
+            </span>
+          </button>
+        </div>
       </section>
     </div>
   );

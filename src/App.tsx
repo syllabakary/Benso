@@ -41,7 +41,7 @@ function App() {
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/auth" element={<AuthPage />} />
                       <Route path="/tableau-de-bord" element={<DashboardPage />} />
-                      <Route path="/apropos" element={<AboutPage />} />
+                      <Route path="/apropo" element={<AboutPage />} />
                       <Route path="/agences" element={<AgencesPage />} />
                       <Route path="/services" element={<ServicesPage />} />
 
