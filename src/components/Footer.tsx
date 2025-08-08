@@ -4,9 +4,9 @@ import { Home, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } fro
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-stone-800 text-white">
-      <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-stone-800 text-white mt-20 pt-14 pb-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Logo et description */}
           <div className="col-span-1 lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8">
+        <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex space-x-6 mb-4 md:mb-0">
               <Link to="/mentions-legales" className="text-gray-400 hover:text-orange-500 transition-colors text-sm">

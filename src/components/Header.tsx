@@ -125,7 +125,8 @@ const Header: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="/mes-favoris"
+                        to="/tableau-de-bord?tab=userfavoris"
+
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
@@ -137,7 +138,7 @@ const Header: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="/mes-reservations"
+                        to="tableau-de-bord?tab=userReservation"
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
@@ -149,7 +150,7 @@ const Header: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="/parametres"
+                        to="tableau-de-bord?tab=userParametres"
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
