@@ -265,6 +265,163 @@ const HomePage: React.FC = () => {
               </Link>
             </div>
           </div>
+          {/* Section Agence - Style Guy Hoquet */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Contenu textuel */}
+            <div className="space-y-8">
+              <div className="space-y-6">
+                <h2 className="text-2xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  BENSO, RÉSEAU D'AGENCES
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">
+                    IMMOBILIÈRES
+                  </span>
+                </h2>
+                
+                <div className="w-20 h-1 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full"></div>
+                
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Vous avez un projet immobilier ? Vous souhaitez vendre, acheter, louer, 
+                  investir ou faire gérer un bien ? Pour que cette transaction se déroule dans 
+                  les meilleures conditions, il vous faut choisir l'agence immobilière qui saura 
+                  vous accompagner, vous conseiller et répondre à votre besoin. Le réseau BENSO, 
+                  leader en Côte d'Ivoire, fort de son concept d'immobilier garanti propose des 
+                  solutions qui vous permettront de réaliser votre projet en toute sérénité.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <Phone className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  Nous contacter
+                </Link>
+                <Link
+                  to="/agences"
+                  className="group inline-flex items-center px-8 py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:border-orange-500 hover:text-orange-600 transition-all duration-300 transform hover:scale-105"
+                >
+                  <MapPin className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  Nos agences
+                </Link>
+              </div>
+            </div>
+
+            {/* Image avec overlay moderne */}
+            <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                <img
+                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+                  alt="Couple heureux dans leur nouveau logement"
+                  className="w-full h-[500px] object-cover"
+                />
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-900/40 via-transparent to-transparent"></div>
+                
+                {/* Badge flottant */}
+                <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                  <span className="text-sm font-semibold text-orange-600 flex items-center">
+                    <Award className="w-4 h-4 mr-2" />
+                    Leader en Côte d'Ivoire
+                  </span>
+                </div>
+
+                {/* Élément décoratif */}
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* L'AGENCE DE TOUS VOS PROJETS */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Image en premier sur cette section */}
+            <div className="relative order-2 lg:order-1">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                <img
+                  src="https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg"
+                  alt="Équipe d'experts BENSO en réunion"
+                  className="w-full h-[500px] object-cover"
+                />
+                {/* Overlay avec motif */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-transparent to-orange-900/30"></div>
+                
+                {/* Badge professionnel */}
+                <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
+                  <span className="text-sm font-semibold text-gray-800 flex items-center">
+                    <Users className="w-4 h-4 mr-2 text-orange-600" />
+                    Équipe d'experts certifiés
+                  </span>
+                </div>
+
+                {/* Élément décoratif */}
+                <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-tr from-orange-400 to-amber-500 rounded-full opacity-15 blur-2xl"></div>
+              </div>
+            </div>
+
+            {/* Contenu textuel */}
+            <div className="space-y-8 order-1 lg:order-2">
+              <div className="space-y-6">
+                <h2 className="text-2xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  L'AGENCE DE TOUS VOS
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-600">
+                    PROJETS
+                  </span>
+                </h2>
+                
+                <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full"></div>
+                
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Rendez-vous dans notre agence BENSO pour discuter et échanger sur votre projet. 
+                  Notre équipe d'experts se tient à votre disposition pour répondre à tous vos 
+                  besoins immobiliers. Que vous souhaitiez vendre, acheter, louer, investir ou 
+                  faire gérer, nous sommes formés pour vous accompagner.
+                  <span className="block mt-4 font-semibold text-orange-600">
+                    Retrouvez-nous en agence !
+                  </span>
+                </p>
+              </div>
+
+              {/* Stats de performance */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-100">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">24h/7j</div>
+                  <div className="text-sm text-gray-600">Support client</div>
+                </div>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">100%</div>
+                  <div className="text-sm text-gray-600">Accompagnement</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <Calendar className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  Prendre rendez-vous
+                </Link>
+                <Link
+                  to="/services"
+                  className="group inline-flex items-center px-8 py-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
+                >
+                  <CheckCircle className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
+                  Nos services
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section Ultra Premium */}
+      <section className="py-24 bg-gradient-to-br from-amber-900 via-orange-900 to-red-900 text-white relative overflow-hidden"></section>
 
           {/* Statistiques de performance */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 p-10 bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl text-white">
@@ -289,7 +446,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section Ultra Premium */}
-      <section className="py-24 bg-gradient-to-br from-amber-900 via-orange-900 to-red-900 text-white relative overflow-hidden">
+      <section className="py-14 bg-gradient-to-br from-amber-900 via-orange-900 to-red-900 text-white relative overflow-hidden">
         {/* Éléments décoratifs */}
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-40 h-40 bg-gradient-to-r from-yellow-400/20 to-orange-400/20 rounded-full blur-xl"></div>
