@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Euro, TrendingUp, FileText, Phone } from 'lucide-react';
+import { 
+  TreePine,
+  Building,
+  Calendar,
+  Phone,
+  MessageCircle,
+  Star,
+  Calculator,
+  Euro,
+  TrendingUp,
+  FileText
+} from 'lucide-react';
 
 interface FinancingCalculatorProps {
   isOpen: boolean;
@@ -17,8 +28,17 @@ export default function FinancingCalculator({ isOpen, onClose, propertyPrice = 0
     notaryFees: true
   });
 
-  const [simulation, setSimulation] = useState<any>(null);
+  interface Simulation {
+    loanAmount: number;
+    monthlyPayment: number;
+    totalInterest: number;
+    totalCost: number;
+    insuranceCost: number;
+    notaryFees: number;
+    totalMonthlyPayment: number;
+  }
 
+<<<<<<< HEAD
   // Move calculateSimulation above its usage
   function calculateSimulation() {
     const loanAmount = formData.propertyPrice - formData.downPayment;
@@ -61,6 +81,51 @@ export default function FinancingCalculator({ isOpen, onClose, propertyPrice = 0
     }));
   };
 
+=======
+  const [simulation, setSimulation] = useState<Simulation | null>(null);
+
+  const calculateSimulation = () => {
+    const loanAmount = formData.propertyPrice - formData.downPayment;
+    const monthlyRate = formData.interestRate / 100 / 12;
+    const numberOfPayments = formData.loanTerm * 12;
+    
+    const monthlyPayment = loanAmount * 
+      (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+      (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+    
+    const totalInterest = (monthlyPayment * numberOfPayments) - loanAmount;
+    const totalCost = formData.propertyPrice + totalInterest;
+    
+    const insuranceCost = formData.insurance ? monthlyPayment * 0.036 : 0;
+    const notaryFees = formData.notaryFees ? formData.propertyPrice * 0.08 : 0;
+    
+    setSimulation({
+      loanAmount,
+      monthlyPayment: monthlyPayment + insuranceCost,
+      totalInterest,
+      totalCost: totalCost + notaryFees,
+      insuranceCost,
+      notaryFees,
+      totalMonthlyPayment: monthlyPayment + insuranceCost
+    });
+  };
+
+  useEffect(() => {
+    calculateSimulation();
+  }, [formData]);
+
+  if (!isOpen) return null;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
+              type === 'number' ? Number(value) : value
+    }));
+  };
+
+>>>>>>> 7497ade6e4738d8b9cac2ccf0c17a463140a8b19
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
