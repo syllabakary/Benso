@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Euro, TrendingUp, FileText, Phone } from 'lucide-react';
+import { 
+  TreePine,
+  Building,
+  Calendar,
+  Phone,
+  MessageCircle,
+  Star,
+  Calculator,
+  Euro,
+  TrendingUp,
+  FileText
+} from 'lucide-react';
 
 interface FinancingCalculatorProps {
   isOpen: boolean;
@@ -17,22 +28,17 @@ export default function FinancingCalculator({ isOpen, onClose, propertyPrice = 0
     notaryFees: true
   });
 
-  const [simulation, setSimulation] = useState<any>(null);
+  interface Simulation {
+    loanAmount: number;
+    monthlyPayment: number;
+    totalInterest: number;
+    totalCost: number;
+    insuranceCost: number;
+    notaryFees: number;
+    totalMonthlyPayment: number;
+  }
 
-  useEffect(() => {
-    calculateSimulation();
-  }, [formData]);
-
-  if (!isOpen) return null;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
-              type === 'number' ? Number(value) : value
-    }));
-  };
+  const [simulation, setSimulation] = useState<Simulation | null>(null);
 
   const calculateSimulation = () => {
     const loanAmount = formData.propertyPrice - formData.downPayment;
@@ -58,6 +64,21 @@ export default function FinancingCalculator({ isOpen, onClose, propertyPrice = 0
       notaryFees,
       totalMonthlyPayment: monthlyPayment + insuranceCost
     });
+  };
+
+  useEffect(() => {
+    calculateSimulation();
+  }, [formData]);
+
+  if (!isOpen) return null;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : 
+              type === 'number' ? Number(value) : value
+    }));
   };
 
   return (

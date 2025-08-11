@@ -13,7 +13,6 @@ import {
   Thermometer,
   TreePine,
   Building,
-  Calendar,
   Phone,
   MessageCircle,
   Star,
@@ -378,8 +377,10 @@ export default function PropertyDetail({
                     <span>Appeler</span>
                   </button>
                   
+                  <button
                     onClick={() => setShowVisitScheduler(true)}
-                    className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+                    className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2"
+                  >
                     <Calendar className="h-5 w-5" />
                     <span>Programmer visite</span>
                   </button>
