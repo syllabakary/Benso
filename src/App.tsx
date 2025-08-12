@@ -17,6 +17,7 @@ import InteractiveMap from './components/map/InteractiveMap';
 import { Map, Grid, LayoutGrid } from 'lucide-react';
 import ErrorBoundary from "./components/ErrorBoundary";
 
+<<<<<<< Updated upstream
 function AppContent() {
   const { user } = useAuth();
   const { filteredProperties, filters, setFilters, viewMode, setViewMode, selectedProperty, setSelectedProperty, favorites, toggleFavorite, incrementViews } = useProperty();
@@ -25,6 +26,29 @@ function AppContent() {
   const [selectedConversation, setSelectedConversation] = useState<Conversation | undefined>();
   const [loading, setLoading] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | 'search' | 'dashboard' | 'messages' | 'property'>('home');
+=======
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import ResultsPage from './pages/ResultsPage';
+import PropertyPage from './pages/PropertyPage';
+import ContactPage from './pages/ContactPage';
+import ReservationPage from './pages/ReservationPage';
+import AuthPage from './pages/AuthPage';
+import DashboardPage from './pages/DashboardPage';
+import { AuthProvider } from './contexts/AuthContext';
+import { PropertyProvider } from './contexts/PropertyContext';
+import { ReservationProvider } from './contexts/ReservationContext';
+import { FavoriteProvider } from './contexts/FavoriteContext';
+import { CurrencyProvider } from './components/CurrencyToggle';
+import AboutPage from './pages/Apropo';
+import AgencesPage from './pages/Agence';
+// ...existing code...
+import ServicesPage from "./pages/services";
+// ...existing code...
+>>>>>>> Stashed changes
 
   const handlePropertyClick = (property: Property) => {
     incrementViews(property.id);
