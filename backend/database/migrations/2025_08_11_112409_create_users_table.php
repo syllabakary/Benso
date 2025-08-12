@@ -10,6 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+            $table->engine = 'InnoDB'; // Spécifier le moteur InnoDB
             $table->id();
             $table->string('nom');
             $table->string('email')->unique();
@@ -31,6 +32,13 @@ return new class extends Migration
             $table->index('is_active');
             $table->index('created_at');
         });
+          // Ajouter l'index full-text après la création de la table avec du SQL brut
+          try {
+            DB::statement('ALTER TABLE users ADD FULLTEXT idx_fulltext_search (nom, email, localite)');
+        } catch (Exception $e) {
+            // Si l'index fulltext échoue, on continue sans (utile pour les environnements de développement)
+            // Vous pouvez logger l'erreur si nécessaire
+        }
     }
 
     public function down(): void
