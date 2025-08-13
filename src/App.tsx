@@ -17,7 +17,7 @@ import { FavoriteProvider } from './contexts/FavoriteContext';
 import { CurrencyProvider } from './components/CurrencyToggle';
 import AboutPage from './pages/Apropo';
 import AgencesPage from './pages/Agence';
-import ServicesPage from './pages/Services';
+import ServicesPage from './pages/services';
 
 
 function App() {
