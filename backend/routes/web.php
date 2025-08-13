@@ -12,7 +12,7 @@ use App\Http\Controllers\Web\PropertyController;
 */
 
 // Page d'accueil publique
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index']);
 
 // Pages de propriétés (pour SEO)
 Route::prefix('proprietes')->group(function () {

@@ -422,11 +422,8 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section Ultra Premium */}
-<<<<<<< Updated upstream
-=======
      
 
->>>>>>> Stashed changes
           {/* Statistiques de performance */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 p-10 bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl text-white">
             <div className="text-center">
