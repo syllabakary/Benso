@@ -574,6 +574,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\SyncDatabase' => __DIR__ . '/../..' . '/app/Console/Commands/SyncDatabase.php',
         'App\\Http\\Controllers\\Api\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/AuthController.php',
         'App\\Http\\Controllers\\Api\\PropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PropertyController.php',
         'App\\Http\\Controllers\\Api\\ReservationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ReservationController.php',

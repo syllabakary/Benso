@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             
             // Informations contact
-            $table->string('nom');
+            $table->string('name');
             $table->string('email');
             $table->string('telephone', 20);
             

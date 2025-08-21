@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('name');
             $table->string('email')->unique();
             $table->string('telephone', 20);
             $table->string('whatsapp', 20);
