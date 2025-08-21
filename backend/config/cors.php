@@ -1,15 +1,14 @@
 <?php
 return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
+
     'allowed_methods' => ['*'],
+
     'allowed_origins' => [
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-        'https://bensoonline.com', // Production
-    ],
-    'allowed_origins_patterns' => [],
-    'allowed_headers' => ['*'],
-    'exposed_headers' => [],
-    'max_age' => 0,
-    'supports_credentials' => true,
+    'http://localhost:5173',  // frontend local Vite
+    'https://bensoonline.com', // production
+],
+'allowed_headers' => ['*'],
+'supports_credentials' => true,
+
 ];
