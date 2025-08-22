@@ -1,4 +1,4 @@
-import { apiService } from './api';
+import { apiService } from './Api';
 import { Reservation, ReservationData } from '../types';
 
 class ReservationService {

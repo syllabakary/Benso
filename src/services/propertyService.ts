@@ -1,4 +1,4 @@
-import { apiService } from './api';
+import { apiService } from './Api';
 import { Property, SearchFilters, PaginatedResponse } from '../types';
 
 export interface PropertySearchParams {
@@ -59,7 +59,7 @@ class PropertyService {
   }
 
   // Statistiques des propriétés
-  async getPropertyStats(): Promise<any> {
+  async getPropertyStats(): Promise<Record<string, unknown>> {
     return apiService.get('/properties/stats');
   }
 }

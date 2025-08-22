@@ -32,8 +32,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ⚡ Utiliser le port Laravel par défaut et le préfixe auth
-  const API_URL = 'http://127.0.0.1:8000/api/auth';
+  // ⚡ Utiliser le port Laravel par défaut et le préfixe auth avec version v1
+  const API_URL = 'http://127.0.0.1:8000/api/v1/auth';
 
   useEffect(() => {
     const savedUser = localStorage.getItem('benso_user');

@@ -1,4 +1,4 @@
-import { apiService } from './api';
+import { apiService } from './Api';
 import { Property } from '../types';
 
 class FavoriteService {
