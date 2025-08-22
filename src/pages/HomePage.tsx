@@ -201,8 +201,9 @@ const HomePage: React.FC = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Ne ratez aucune opportunité ! Découvrez les derniers biens ajoutés à notre catalogue
             </p>
+            <RecentProperties />
           </div>
-          <RecentProperties />
+          
         </div>
       </section>
 
@@ -421,7 +422,7 @@ const HomePage: React.FC = () => {
       </section>
 
       {/* CTA Section Ultra Premium */}
-      <section className="py-24 bg-gradient-to-br from-amber-900 via-orange-900 to-red-900 text-white relative overflow-hidden"></section>
+     
 
           {/* Statistiques de performance */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 p-10 bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl text-white">

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface User {
   id: string;
@@ -31,11 +32,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // ⚡ Utiliser le port Laravel par défaut et le préfixe auth avec version v1
+  const API_URL = 'http://127.0.0.1:8000/api/v1/auth';
+
   useEffect(() => {
-    // Récupérer l'utilisateur depuis le localStorage au démarrage
     const savedUser = localStorage.getItem('benso_user');
-    if (savedUser) {
+    const savedToken = localStorage.getItem('benso_token');
+    if (savedUser && savedToken) {
       setUser(JSON.parse(savedUser));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`;
     }
     setIsLoading(false);
   }, []);
@@ -43,23 +48,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulation API call - remplacer par vraie API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Utilisateur fictif pour demo
-      const mockUser: User = {
-        id: '1',
-        nom: 'John Doe',
-        age: 30,
-        email,
-        localite: 'Paris',
-        nationalite: 'Française',
-      };
-      
-      setUser(mockUser);
-      localStorage.setItem('benso_user', JSON.stringify(mockUser));
+      const response = await axios.post(`${API_URL}/login`, { email, password });
+      const { user, token } = response.data;
+
+      setUser(user);
+      localStorage.setItem('benso_user', JSON.stringify(user));
+      localStorage.setItem('benso_token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return true;
     } catch (error) {
+      console.error('Erreur de connexion:', error);
       return false;
     } finally {
       setIsLoading(false);
@@ -69,18 +67,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (userData: Omit<User, 'id'> & { password: string }): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Simulation API call - remplacer par vraie API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const newUser: User = {
-        ...userData,
-        id: Date.now().toString()
-      };
-      
-      setUser(newUser);
-      localStorage.setItem('benso_user', JSON.stringify(newUser));
+      const response = await axios.post(`${API_URL}/register`, userData);
+      const { user, token } = response.data;
+
+      setUser(user);
+      localStorage.setItem('benso_user', JSON.stringify(user));
+      localStorage.setItem('benso_token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return true;
     } catch (error) {
+      console.error('Erreur d\'inscription:', error);
       return false;
     } finally {
       setIsLoading(false);
@@ -90,6 +86,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     localStorage.removeItem('benso_user');
+    localStorage.removeItem('benso_token');
+    delete axios.defaults.headers.common['Authorization'];
   };
 
   return (
