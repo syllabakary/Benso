@@ -64,7 +64,6 @@ const LoginForm: React.FC = () => {
           <h3 className="font-medium text-blue-900 mb-2">Comptes de démonstration :</h3>
           <div className="text-sm text-blue-800 space-y-1">
             <p><strong>Super Admin:</strong> admin@benso.ci / admin123</p>
-            <p><strong>Modérateur:</strong> moderator@benso.ci / mod123</p>
           </div>
         </div>
 

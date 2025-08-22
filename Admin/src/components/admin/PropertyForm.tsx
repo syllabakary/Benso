@@ -1,3 +1,4 @@
+import '../../index.css';
 import React, { useState, useEffect } from 'react';
 import { useAdmin } from '../../contexts/AdminContext';
 import { 
@@ -536,7 +537,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property, 
           Images (Maximum 10)
         </label>
         
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+        <label htmlFor="image-upload" className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer block">
           <input
             type="file"
             multiple
@@ -545,12 +546,10 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property, 
             className="hidden"
             id="image-upload"
           />
-          <label htmlFor="image-upload" className="cursor-pointer">
-            <Upload size={48} className="mx-auto text-gray-400 mb-4" />
-            <p className="text-gray-600">Cliquez pour ajouter des images</p>
-            <p className="text-sm text-gray-500">PNG, JPG jusqu'à 5MB chacune</p>
-          </label>
-        </div>
+          <Upload size={48} className="mx-auto text-gray-400 mb-4" />
+          <p className="text-gray-600">Cliquez pour ajouter des images</p>
+          <p className="text-sm text-gray-500">PNG, JPG jusqu'à 5MB chacune</p>
+        </label>
 
         {/* Aperçu des images */}
         {imagePreviews.length > 0 && (
@@ -565,9 +564,9 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property, 
                 <button
                   type="button"
                   onClick={() => removeImage(index)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  <X size={12} />
+                  <X size={16} />
                 </button>
               </div>
             ))}
@@ -578,90 +577,71 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property, 
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl w-full max-w-4xl my-8 mx-4">
-        {/* Header */}
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {mode === 'create' ? 'Ajouter une propriété' : 'Modifier la propriété'}
+          <h2 className="text-xl font-semibold text-gray-900">
+            {mode === 'create' ? 'Ajouter un bien' : 'Modifier le bien'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="text-gray-400 hover:text-gray-600"
           >
             <X size={24} />
           </button>
         </div>
 
-        {/* Progress Bar */}
-        <div className="px-6 py-4 bg-gray-50">
-          <div className="flex items-center justify-between mb-2">
-            {[1, 2, 3, 4].map(step => (
-              <div
-                key={step}
-                className={`flex items-center ${step < 4 ? 'flex-1' : ''}`}
-              >
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                    step <= currentStep
-                      ? 'bg-orange-600 text-white'
-                      : 'bg-gray-200 text-gray-500'
-                  }`}
-                >
-                  {step}
+        <form onSubmit={handleSubmit} className="p-6">
+          {/* Indicateur d'étapes */}
+          <div className="flex justify-center mb-8">
+            <div className="flex space-x-4">
+              {[1, 2, 3, 4].map(step => (
+                <div key={step} className="flex items-center">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                    currentStep === step 
+                      ? 'bg-orange-600 text-white' 
+                      : currentStep > step 
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-200 text-gray-600'
+                  }`}>
+                    {step}
+                  </div>
+                  {step < 4 && (
+                    <div className={`w-16 h-1 mx-2 ${
+                      currentStep > step ? 'bg-green-500' : 'bg-gray-200'
+                    }`} />
+                  )}
                 </div>
-                {step < 4 && (
-                  <div
-                    className={`flex-1 h-1 mx-2 ${
-                      step < currentStep ? 'bg-orange-600' : 'bg-gray-200'
-                    }`}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="text-sm text-gray-600">
-            Étape {currentStep} sur 4
-          </div>
-        </div>
-
-        {/* Content */}
-        <form onSubmit={handleSubmit} className="flex flex-col h-full">
-          <div className="max-h-[70vh] overflow-y-auto p-6">
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
+              ))}
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between p-6 border-t bg-gray-50">
-            <div className="flex space-x-3">
+          {/* Contenu de l'étape */}
+          {currentStep === 1 && renderStep1()}
+          {currentStep === 2 && renderStep2()}
+          {currentStep === 3 && renderStep3()}
+          {currentStep === 4 && renderStep4()}
+
+          {/* Boutons de navigation */}
+          <div className="flex justify-between mt-8 pt-6 border-t">
+            <div>
               {currentStep > 1 && (
                 <button
                   type="button"
                   onClick={handlePrevious}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
                 >
                   Précédent
                 </button>
               )}
             </div>
-
-            <div className="flex space-x-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Annuler
-              </button>
-              
+            
+            <div className="flex space-x-4">
               {currentStep < 4 ? (
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+                  className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
                 >
                   Suivant
                 </button>
@@ -669,7 +649,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({ isOpen, onClose, property, 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:opacity-50 flex items-center space-x-2"
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 flex items-center space-x-2"
                 >
                   <Save size={20} />
                   <span>{isLoading ? 'Enregistrement...' : 'Enregistrer'}</span>
