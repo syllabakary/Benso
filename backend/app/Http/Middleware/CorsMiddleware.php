@@ -14,7 +14,7 @@ class CorsMiddleware
     public function handle(Request $request, Closure $next)
     {
         $allowedOrigins = [
-            config('app.frontend_url', 'http://localhost:3000'),
+            config('app.frontend_url', 'http://localhost:8000'),
             'https://bensoonline.com',
             'https://www.bensoonline.com',
             'https://admin.bensoonline.com',
