@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, Search, Building2, User, Menu, X, LogOut, Settings, Bell, ChevronDown, UserCircle, CreditCard, Heart } from 'lucide-react';
+import { 
+  Home, Search, Building2, User, Menu, X, LogOut, Settings, Bell, 
+  ChevronDown, UserCircle, CreditCard, Heart 
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import CurrencyToggle from './CurrencyToggle';
 
@@ -17,52 +20,51 @@ const Header: React.FC = () => {
     setIsUserMenuOpen(false);
   };
 
-  // Fermer le menu utilisateur si on clique à l'extérieur
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsUserMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const navItems = [
+    { to: "/", label: "Accueil" },
+    { to: "/apropo", label: "À propos" },
+    { to: "/acheter", label: "Acheter" },
+    { to: "/louer", label: "Louer" },
+    { to: "/services", label: "Services" },
+    { to: "/reserver", label: "Réserver" },
+    { to: "/contact", label: "Contact" }
+  ];
 
   return (
     <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-orange-600 text-white p-2.5 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-              <Home className="h-5 w-5" />
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-orange-700 bg-clip-text text-transparent">
-              BENSO
-            </span>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              className="h-14 w-26" 
+              src="./asset/images-benso/Logo Benso rectangle.jpg" 
+              alt="logo benso" 
+            />
           </Link>
 
           {/* Navigation Desktop */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {[
-              { to: "/", label: "Accueil" },
-              { to: "/apropo", label: "À propos" },
-              { to: "/acheter", label: "Acheter" },
-              { to: "/louer", label: "Louer" },
-              { to: "/services", label: "Services" },
-              { to: "/reserver", label: "Réserver" },
-              { to: "/contact", label: "Contact" }
-            ].map((item) => (
+            {navItems.map(item => (
               <Link
                 key={item.to}
                 to={item.to}
-                className="relative px-4 py-2 text-gray-700 hover:text-orange-600 transition-all duration-200 font-medium rounded-lg hover:bg-orange-50 group"
+                className="relative px-4 py-2 text-gray-700 hover:text-orange-600 transition-all duration-200 font-medium rounded-lg group"
               >
                 {item.label}
-                <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-amber-600 group-hover:w-3/4 group-hover:left-1/8 transition-all duration-300 rounded-full"></span>
+                {/* Trait sous le lien */}
+                <span className="absolute bottom-0 left-1/4 w-1/2 h-0.5 bg-gradient-to-r from-orange-500 to-amber-600 scale-x-0 group-hover:scale-x-100 origin-center transition-transform duration-200 rounded-full"></span>
               </Link>
             ))}
           </nav>
@@ -70,8 +72,7 @@ const Header: React.FC = () => {
           {/* Actions utilisateur */}
           <div className="hidden md:flex items-center space-x-4">
             <CurrencyToggle />
-            
-            {/* Notifications */}
+
             <button className="relative p-2 text-gray-700 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-all duration-200">
               <Bell className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
@@ -93,10 +94,9 @@ const Header: React.FC = () => {
                   <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Menu déroulant utilisateur */}
+                {/* Menu utilisateur */}
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
-                    {/* En-tête du profil */}
                     <div className="px-4 py-3 border-b border-gray-100">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
@@ -110,7 +110,6 @@ const Header: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Options du menu */}
                     <div className="py-2">
                       <Link
                         to="/tableau-de-bord"
@@ -126,7 +125,6 @@ const Header: React.FC = () => {
 
                       <Link
                         to="/tableau-de-bord?tab=userfavoris"
-
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
@@ -138,7 +136,7 @@ const Header: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="tableau-de-bord?tab=userReservation"
+                        to="/tableau-de-bord?tab=userReservation"
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
@@ -150,7 +148,7 @@ const Header: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="tableau-de-bord?tab=userParametres"
+                        to="/tableau-de-bord?tab=userParametres"
                         onClick={() => setIsUserMenuOpen(false)}
                         className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
                       >
@@ -162,10 +160,8 @@ const Header: React.FC = () => {
                       </Link>
                     </div>
 
-                    {/* Séparateur */}
                     <div className="border-t border-gray-100 my-2"></div>
 
-                    {/* Déconnexion */}
                     <button
                       onClick={handleLogout}
                       className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-200 w-full group"
@@ -202,15 +198,7 @@ const Header: React.FC = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-100 py-4 animate-in slide-in-from-top-2 duration-200">
             <div className="flex flex-col space-y-2">
-              {[
-                { to: "/", label: "Accueil" },
-                { to: "/apropo", label: "À propos" },
-                { to: "/acheter", label: "Acheter" },
-                { to: "/louer", label: "Louer" },
-                { to: "/services", label: "Services" },
-                { to: "/reserver", label: "Réserver" },
-                { to: "/contact", label: "Contact" }
-              ].map((item) => (
+              {navItems.map(item => (
                 <Link
                   key={item.to}
                   to={item.to}
@@ -220,7 +208,7 @@ const Header: React.FC = () => {
                   {item.label}
                 </Link>
               ))}
-              
+
               {user ? (
                 <div className="pt-4 border-t border-gray-100 space-y-2">
                   <div className="flex items-center space-x-3 px-4 py-2">
@@ -232,7 +220,7 @@ const Header: React.FC = () => {
                       <div className="text-sm text-orange-600">Premium</div>
                     </div>
                   </div>
-                  
+
                   <Link 
                     to="/tableau-de-bord" 
                     className="flex items-center space-x-3 text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 py-3 px-4 rounded-lg"
@@ -241,12 +229,9 @@ const Header: React.FC = () => {
                     <UserCircle className="h-5 w-5" />
                     <span>Mon Profil</span>
                   </Link>
-                  
+
                   <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsMenuOpen(false);
-                    }}
+                    onClick={() => { handleLogout(); setIsMenuOpen(false); }}
                     className="flex items-center space-x-3 text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-200 w-full py-3 px-4 rounded-lg"
                   >
                     <LogOut className="h-5 w-5" />

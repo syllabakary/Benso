@@ -38,7 +38,7 @@ export default function FinancingCalculator({ isOpen, onClose, propertyPrice = 0
     totalMonthlyPayment: number;
   }
 
-<<<<<<< HEAD
+
   // Move calculateSimulation above its usage
   function calculateSimulation() {
     const loanAmount = formData.propertyPrice - formData.downPayment;

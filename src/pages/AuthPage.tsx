@@ -62,7 +62,7 @@ const AuthPage: React.FC = () => {
     });
     
     if (success) {
-      navigate('/tableau-de-bord');
+      navigate('/login');
     } else {
       alert('Erreur lors de l\'inscription');
     }
@@ -222,7 +222,7 @@ const AuthPage: React.FC = () => {
                       value={registerData.localite}
                       onChange={(e) => setRegisterData({ ...registerData, localite: e.target.value })}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="Paris"
+                      placeholder="Abidjan"
                     />
                   </div>
                 </div>
@@ -239,7 +239,7 @@ const AuthPage: React.FC = () => {
                       value={registerData.nationalite}
                       onChange={(e) => setRegisterData({ ...registerData, nationalite: e.target.value })}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                      placeholder="Française"
+                      placeholder="Ivoirienne"
                     />
                   </div>
                 </div>

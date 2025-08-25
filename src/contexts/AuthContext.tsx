@@ -32,8 +32,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ⚡ Utiliser le port Laravel par défaut et le préfixe auth avec version v1
-  const API_URL = 'http://127.0.0.1:8000/api/v1/auth';
+  // ✅ URL de base corrigée - pointe vers le préfixe auth
+  const API_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth';
 
   useEffect(() => {
     const savedUser = localStorage.getItem('benso_user');
@@ -48,7 +48,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password });
+      console.log('🔐 Tentative de connexion vers:', `${API_BASE_URL}/login`);
+      const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
+      console.log('✅ Réponse de connexion:', response.data);
+      
       const { user, token } = response.data;
 
       setUser(user);
@@ -56,8 +59,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('benso_token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return true;
-    } catch (error) {
-      console.error('Erreur de connexion:', error);
+    } catch (error: any) {
+      console.error('❌ Erreur de connexion:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        url: error.config?.url
+      });
       return false;
     } finally {
       setIsLoading(false);
@@ -67,7 +75,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (userData: Omit<User, 'id'> & { password: string }): Promise<boolean> => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/register`, userData);
+      console.log('📤 Données envoyées:', userData);
+      console.log('🎯 URL d\'inscription:', `${API_BASE_URL}/register`);
+      
+      const response = await axios.post(`${API_BASE_URL}/register`, userData);
+      console.log('✅ Réponse d\'inscription:', response.data);
+      
       const { user, token } = response.data;
 
       setUser(user);
@@ -75,8 +88,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('benso_token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       return true;
-    } catch (error) {
-      console.error('Erreur d\'inscription:', error);
+    } catch (error: any) {
+      console.error('❌ Erreur d\'inscription:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        url: error.config?.url
+      });
       return false;
     } finally {
       setIsLoading(false);

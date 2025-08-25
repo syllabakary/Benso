@@ -24,53 +24,62 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section Ultra Premium */}
-      <section className="relative bg-gradient-to-br from-orange-500 via-orange-600 to-amber-700 text-white overflow-hidden">
-        {/* Video Background avec overlay sophistiqué */}
+      <section className="relative bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white overflow-hidden min-h-screen flex items-center">
+        {/* Vidéo Background Professionnelle */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-orange-900/30 to-amber-900/40 z-10"></div>
-          <img
-            src="https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg"
-            alt="Hero Background"
-            className="w-full h-full object-cover scale-105 transition-transform duration-[20s] ease-in-out hover:scale-110"
-          />
-        </div>
-        
-        {/* Particules animées sophistiquées */}
-        <div className="absolute inset-0 z-5">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-white/10 to-yellow-200/20 rounded-full animate-pulse blur-sm"></div>
-          <div className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-yellow-300/20 to-orange-200/30 rounded-full animate-bounce blur-sm"></div>
-          <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-orange-300/15 to-amber-200/25 rounded-full animate-ping"></div>
-          <div className="absolute top-1/3 right-1/3 w-20 h-20 bg-gradient-to-r from-amber-200/10 to-orange-100/20 rounded-full animate-pulse delay-700"></div>
-          <div className="absolute bottom-1/3 left-1/2 w-12 h-12 bg-gradient-to-r from-yellow-200/15 to-orange-300/20 rounded-full animate-bounce delay-1000"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-slate-900/50 to-orange-900/40 z-10"></div>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover scale-105"
+            poster="./asset/images-benso/2.png"
+          >
+            <source
+              src="https://youtu.be/xGvIPHH7zpc"
+              type="video/mp4"
+            />
+            {/* Fallback image si la vidéo ne se charge pas */}
+            <img
+              src="./asset/images-benso/2.png"
+              alt="Immobilier moderne professionnel"
+              className="w-full h-full object-cover"
+            />
+          </video>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 z-20">
           <div className="text-center mb-16">
             <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-              <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-8 border border-white/20">
-                <Award className="w-5 h-5 mr-2 text-yellow-300" />
-                <span className="text-sm font-medium">N°1 de l'immobilier en Côte d'Ivoire</span>
+              <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-6 py-3 rounded-full mb-8 border border-white/20">
+                <div className="w-5 h-5 mr-3 bg-gradient-to-r from-orange-400 to-amber-500 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                </div>
+                <span className="text-sm font-medium">Excellence immobilière en Côte d'Ivoire</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-extrabold mb-8 leading-tight">
                 Votre bien immobilier
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-200 to-orange-200 animate-gradient">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 animate-gradient">
                   vous attend
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-orange-100 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
+              <p className="text-xl md:text-2xl text-gray-100 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
                 Achetez, louez ou réservez votre bien idéal avec BENSO - 
-                <span className="font-semibold text-yellow-200"> La référence immobilière de confiance</span>
+                <span className="font-semibold text-orange-200"> La référence immobilière de confiance</span>
               </p>
             </div>
           </div>
 
-          {/* Boutons rapides premium */}
+          {/* Boutons rapides premium avec icônes professionnelles */}
           <div className={`flex flex-col sm:flex-row gap-6 justify-center mb-16 transform transition-all duration-1000 delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
             <Link
               to="/acheter"
               className="group inline-flex items-center px-10 py-5 bg-gradient-to-r from-white to-gray-50 text-orange-600 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-white/20"
             >
-              <ShoppingCart className="mr-3 h-6 w-6 group-hover:scale-110 transition-transform" />
+              <div className="mr-3 w-6 h-6 bg-gradient-to-r from-orange-500 to-amber-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-3 h-3 border-2 border-white rounded-sm"></div>
+              </div>
               <span className="text-lg">Acheter</span>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </Link>
@@ -78,7 +87,9 @@ const HomePage: React.FC = () => {
               to="/louer"
               className="group inline-flex items-center px-10 py-5 bg-gradient-to-r from-white to-gray-50 text-orange-600 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-white/20"
             >
-              <Key className="mr-3 h-6 w-6 group-hover:scale-110 transition-transform" />
+              <div className="mr-3 w-6 h-6 bg-gradient-to-r from-orange-500 to-amber-500 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-2 h-3 bg-white rounded-sm"></div>
+              </div>
               <span className="text-lg">Louer</span>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </Link>
@@ -86,7 +97,6 @@ const HomePage: React.FC = () => {
               to="/reserver"
               className="group inline-flex items-center px-10 py-5 bg-gradient-to-r from-white to-gray-50 text-orange-600 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-white/20"
             >
-              <Calendar className="mr-3 h-6 w-6 group-hover:scale-110 transition-transform" />
               <span className="text-lg">Réserver</span>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-amber-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </Link>
@@ -99,44 +109,19 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Stats premium */}
-          <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 transform transition-all duration-1000 delay-900 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-            <div className="text-center group">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                <AnimatedCounter end={10000} suffix="+" className="text-4xl font-bold text-yellow-300" />
-                <div className="text-orange-100 mt-2 font-medium">Biens disponibles</div>
-              </div>
-            </div>
-            <div className="text-center group">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                <AnimatedCounter end={2000} suffix="+" className="text-4xl font-bold text-yellow-300" />
-                <div className="text-orange-100 mt-2 font-medium">Ventes réalisées</div>
-              </div>
-            </div>
-            <div className="text-center group">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                <AnimatedCounter end={5000} suffix="+" className="text-4xl font-bold text-yellow-300" />
-                <div className="text-orange-100 mt-2 font-medium">Clients satisfaits</div>
-              </div>
-            </div>
-            <div className="text-center group">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 group-hover:bg-white/20 transition-all duration-300">
-                <AnimatedCounter end={98} suffix="%" className="text-4xl font-bold text-yellow-300" />
-                <div className="text-orange-100 mt-2 font-medium">Taux de satisfaction</div>
-              </div>
-            </div>
-          </div>
+   
 
-          {/* Badge de confiance */}
+          {/* Badge de confiance avec icône professionnelle */}
           <div className={`text-center mt-16 transform transition-all duration-1000 delay-1200 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
             <div className="inline-flex items-center bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-md px-6 py-3 rounded-full border border-green-400/30">
-              <CheckCircle className="w-5 h-5 mr-2 text-green-300" />
-              <span className="text-sm font-medium text-green-100">Certifié et agréé par l'État de Côte d'Ivoire</span>
+              <div className="w-5 h-5 mr-3 bg-green-400 rounded-full flex items-center justify-center">
+                <div className="w-2 h-2 bg-white rounded-full"></div>
+              </div>
+              {/* <span className="text-sm font-medium text-green-100">Certifié et agréé par l'État de Côte d'Ivoire</span> */}
             </div>
           </div>
         </div>
       </section>
-
       {/* Section Sponsorisée Ultra Professionnelle */}
       <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,25 +149,7 @@ const HomePage: React.FC = () => {
                 </span>
               </div>
             </div>
-            
             <SponsoredAds />
-            
-            {/* Call-to-action sous la section sponsorisée */}
-            <div className="text-center mt-12">
-              <div className="bg-gradient-to-r from-orange-500 to-amber-600 text-white p-8 rounded-3xl shadow-2xl">
-                <h3 className="text-2xl font-bold mb-4">Envie de mettre votre bien en avant ?</h3>
-                <p className="text-orange-100 mb-6 max-w-2xl mx-auto">
-                  Rejoignez notre sélection premium et bénéficiez d'une visibilité maximale
-                </p>
-                <Link 
-                  to="/contact"
-                  className="inline-flex items-center px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  <Phone className="mr-2 h-5 w-5" />
-                  Nous contacter
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -191,30 +158,27 @@ const HomePage: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 px-6 py-2 rounded-full mb-6 border border-blue-200">
-              <Clock className="w-5 h-5 mr-2 text-blue-600" />
-              <span className="text-sm font-semibold text-blue-800">Dernières Opportunités</span>
+            <div className="inline-flex items-center bg-[#0E0701FF] from-blue-100 to-indigo-100 px-6 py-2 rounded-full mb-6 border border-blue-200">
+
+              <Clock className="w-5 h-5 mr-2 text-[#FD9400FF]" />
+
+              <span className="text-sm font-semibold text-[#FFFFFFFF]">Dernières Opportunités</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Biens <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Récemment Ajoutés</span>
+              Biens <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FD9400FF] to-[#FD9400FF]">Récemment Ajoutés</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Ne ratez aucune opportunité ! Découvrez les derniers biens ajoutés à notre catalogue
             </p>
             <RecentProperties />
           </div>
-          
         </div>
       </section>
 
       {/* Pourquoi choisir BENSO - Version Ultra Premium */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      <section className="py-0 bg-gradient-to-br from-gray-50 via-white to-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-2 rounded-full mb-6 border border-green-200">
-              <Shield className="w-5 h-5 mr-2 text-green-600" />
-              <span className="text-sm font-semibold text-green-800">Nos Garanties</span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Pourquoi choisir <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">BENSO</span> ?
             </h2>
@@ -295,7 +259,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/contact"
-                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="group inline-flex items-center px-8 py-4 bg-[#6d3900] from-orange-500 to-amber-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Phone className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                   Nous contacter
@@ -314,7 +278,7 @@ const HomePage: React.FC = () => {
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
                 <img
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"
+                  src="./asset/images-benso/3.png"
                   alt="Couple heureux dans leur nouveau logement"
                   className="w-full h-[500px] object-cover"
                 />
@@ -345,7 +309,8 @@ const HomePage: React.FC = () => {
             <div className="relative order-2 lg:order-1">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
                 <img
-                  src="https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg"
+                  src="./asset/images-benso/4.png"
+
                   alt="Équipe d'experts BENSO en réunion"
                   className="w-full h-[500px] object-cover"
                 />
@@ -356,7 +321,7 @@ const HomePage: React.FC = () => {
                 <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg">
                   <span className="text-sm font-semibold text-gray-800 flex items-center">
                     <Users className="w-4 h-4 mr-2 text-orange-600" />
-                    Équipe d'experts certifiés
+                   
                   </span>
                 </div>
 
@@ -370,12 +335,13 @@ const HomePage: React.FC = () => {
               <div className="space-y-6">
                 <h2 className="text-2xl md:text-5xl font-bold text-gray-900 leading-tight">
                   L'AGENCE DE TOUS VOS
-                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-600">
+                  <span className="block text-transparent bg-clip-text bg-[#6d3900]  
+ from-blue-600 to-orange-600">
                     PROJETS
                   </span>
                 </h2>
                 
-                <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-orange-500 rounded-full"></div>
+                <div className="w-20 h-1 bg-[#6d3900] rounded-full"></div>
                 
                 <p className="text-lg text-gray-600 leading-relaxed">
                   Rendez-vous dans notre agence BENSO pour discuter et échanger sur votre projet. 
@@ -395,7 +361,7 @@ const HomePage: React.FC = () => {
                   <div className="text-sm text-gray-600">Support client</div>
                 </div>
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">100%</div>
+                  <div className="text-3xl font-bold text-[#994F00FF] mb-2">100%</div>
                   <div className="text-sm text-gray-600">Accompagnement</div>
                 </div>
               </div>
@@ -403,7 +369,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/contact"
-                  className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="group inline-flex items-center px-8 py-4 bg-[#6d3900] from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Calendar className="mr-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                   Prendre rendez-vous
@@ -424,25 +390,8 @@ const HomePage: React.FC = () => {
       {/* CTA Section Ultra Premium */}
      
 
-          {/* Statistiques de performance */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 p-10 bg-gradient-to-r from-orange-500 to-amber-600 rounded-3xl text-white">
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">15+</div>
-              <div className="text-orange-100 text-sm">Années d'expérience</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">24h</div>
-              <div className="text-orange-100 text-sm">Réponse garantie</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">100%</div>
-              <div className="text-orange-100 text-sm">Transactions sécurisées</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">15%</div>
-              <div className="text-orange-100 text-sm">Économies moyennes</div>
-            </div>
-          </div>
+        
+        
         </div>
       </section>
 
@@ -471,7 +420,6 @@ const HomePage: React.FC = () => {
           <p className="text-xl md:text-2xl text-orange-100 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
             Rejoignez des milliers de clients satisfaits qui ont trouvé leur bonheur avec BENSO
             <span className="block font-semibold text-yellow-200 mt-2">
-              🏆 Élu meilleur service immobilier 2024
             </span>
           </p>
 

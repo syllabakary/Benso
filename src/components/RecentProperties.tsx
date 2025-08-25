@@ -194,14 +194,14 @@ const RecentProperties: React.FC = () => {
           <button 
             onClick={prevSlide}
             className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-200 hover:bg-orange-50"
-            disabled={maxIndex === 0}
+            disabled={maxIndex === 1}
           >
             <ChevronLeft className="h-5 w-5 text-gray-600 hover:text-orange-600 transition-colors" />
           </button>
           <button 
             onClick={nextSlide}
             className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-200 hover:bg-orange-50"
-            disabled={maxIndex === 0}
+            disabled={maxIndex === 1}
           >
             <ChevronRight className="h-5 w-5 text-gray-600 hover:text-orange-600 transition-colors" />
           </button>

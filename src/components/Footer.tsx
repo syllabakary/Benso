@@ -10,10 +10,10 @@ const Footer: React.FC = () => {
           {/* Logo et description */}
           <div className="col-span-1 lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-r from-orange-500 to-amber-600 text-white p-2 rounded-lg">
-                <Home className="h-6 w-6" />
-              </div>
-              <span className="text-2xl font-bold">BENSO</span>
+              
+              <img className="h-14 w-26" src="./asset/images-benso/Logo Benso décliné en blanc @300x-8.png" alt="logo benso" />
+            
+             
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               Votre partenaire de confiance pour l'immobilier. 

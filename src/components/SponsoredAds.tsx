@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MapPin, Maximize, ChevronLeft, ChevronRight } from 'lucide-react';
 
+
 const SponsoredAds: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -105,9 +106,14 @@ const SponsoredAds: React.FC = () => {
                           {property.surface}
                         </div>
 
-                        <button className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2 rounded-lg text-xs font-semibold hover:shadow-md transition-all duration-200">
-                          Voir détails
-                        </button>
+                        <div className="text-center">
+                          <button
+                            onClick={() => window.location.href = '/resultats'}
+                            className="inline-flex items-center px-4 py-3 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold rounded-lg sm:rounded-xl hover:from-orange-600 hover:to-amber-700 transition-all duration-200 text-sm sm:text-base transform hover:scale-105 shadow-lg hover:shadow-xl"
+                          >
+                            Voir toutes les annonces
+                          </button>
+                         </div>
                       </div>
                     </div>
                   </div>

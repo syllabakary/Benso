@@ -11,7 +11,7 @@ class AuthService {
   // Connexion
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response = await apiService.post<AuthResponse>('/v1/auth/login', credentials);
+      const response = await apiService.post<AuthResponse>('/auth/login', credentials);
       
       // Stocker le token et l'utilisateur
       localStorage.setItem('auth_token', response.token);
